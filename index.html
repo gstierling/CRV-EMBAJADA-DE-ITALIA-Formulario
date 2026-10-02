@@ -198,7 +198,7 @@
     </section>
 
     <div class="alerta" id="alerta"></div>
-    <button type="submit" class="btn" id="enviar">Inscribirme y pagar</button>
+    <button type="submit" class="btn" id="enviar">Inscribirme y pagar $12.000</button>
     <p style="text-align:center;color:var(--suave);font-size:.92rem;margin-top:12px">Serás redirigido a Flow para completar el pago de forma segura.</p>
   </form>
 
@@ -230,7 +230,7 @@
 </div>
 
 <script>
-const SCRIPT_URL = 'PEGAR_AQUI_URL_APPS_SCRIPT';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhlAxNOJ7C7MFxXs-u7w0H9EH5I0cxQxBJwCoE4fpKajpm1KHuIsnfgNYlS00dUCalJQ/exec';
 
 const $ = id => document.getElementById(id);
 const setErr = (f, on) => document.querySelector(`.field[data-f="${f}"]`).classList.toggle('err', on);
@@ -334,7 +334,7 @@ $('form').addEventListener('submit', async e => {
     $('alerta').textContent = 'No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.';
     $('alerta').style.display = 'block';
   }finally{
-    if(!redirigiendo){ btn.disabled = false; btn.textContent = 'Inscribirme y pagar'; }
+    if(!redirigiendo){ btn.disabled = false; btn.textContent = 'Inscribirme y pagar $12.000'; }
   }
 });
 
