@@ -198,16 +198,32 @@
     </section>
 
     <div class="alerta" id="alerta"></div>
-    <button type="submit" class="btn" id="enviar">Enviar inscripción</button>
+    <button type="submit" class="btn" id="enviar">Inscribirme y pagar</button>
+    <p style="text-align:center;color:var(--suave);font-size:.92rem;margin-top:12px">Serás redirigido a Flow para completar el pago de forma segura.</p>
   </form>
 
   <div class="ok" id="ok">
     <div class="circ"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-    <h2>¡Inscripción recibida!</h2>
+    <h2>¡Inscripción confirmada!</h2>
     <div class="who" id="okNombre"></div>
-    <p>Te esperamos el <b>domingo 18 de octubre</b> a las <b>9.30 hrs.</b> en Andrés Bello con General Calderón.</p>
+    <p>Tu pago fue recibido. Te esperamos el <b>domingo 18 de octubre</b>, convocatoria <b>9.30 hrs.</b> en Andrés Bello con General Calderón.</p>
     <p>Grazie mille 🇮🇹🇨🇱</p>
-    <button class="btn" id="otra">Inscribir a otra persona</button>
+    <button class="btn otra">Inscribir a otra persona</button>
+  </div>
+
+  <div class="ok" id="pend">
+    <div class="circ" style="background:#e0a100;box-shadow:0 0 0 10px #fff4d1"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div>
+    <h2>Pago en proceso</h2>
+    <div class="who" id="pendNombre"></div>
+    <p>Tu inscripción quedará confirmada cuando Flow apruebe el pago. Recibirás el comprobante en tu correo.</p>
+    <button class="btn otra">Inscribir a otra persona</button>
+  </div>
+
+  <div class="ok" id="rech">
+    <div class="circ" style="background:var(--rojo);box-shadow:0 0 0 10px var(--rojo-claro)"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></div>
+    <h2>El pago no se completó</h2>
+    <p>La inscripción no quedó confirmada. Puedes intentarlo nuevamente.</p>
+    <button class="btn otra">Volver a intentar</button>
   </div>
 
   <footer>Cicletada Embajada de Italia 2026 · CicloRecreoVía</footer>
@@ -302,33 +318,48 @@ $('form').addEventListener('submit', async e => {
     d3: 'Sí', d4: 'Sí'
   };
 
-  const btn = $('enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+  const btn = $('enviar'); btn.disabled = true; btn.textContent = 'Conectando con Flow…';
+  let redirigiendo = false;
   try{
     const r = await fetch(SCRIPT_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(datos) });
     const j = await r.json();
-    if(j.status === 'ok'){
-      $('okNombre').textContent = datos.nombre + ' ' + datos.apellido;
-      $('form').style.display = 'none'; $('ok').style.display = 'block';
-      window.scrollTo({top:0, behavior:'smooth'});
+    if(j.status === 'ok' && j.url){
+      redirigiendo = true;
+      window.location.href = j.url;
     } else if(j.status === 'duplicado'){
-      $('rutMsg').textContent = 'Este RUT ya está inscrito.';
+      $('rutMsg').textContent = 'Este RUT ya tiene una inscripción pagada.';
       setErr('rut', true); $('rut').closest('.field').scrollIntoView({behavior:'smooth', block:'center'});
     } else { throw new Error(j.message || 'Error'); }
   }catch(err){
-    $('alerta').textContent = 'No se pudo enviar la inscripción. Revisa tu conexión e inténtalo de nuevo.';
+    $('alerta').textContent = 'No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.';
     $('alerta').style.display = 'block';
   }finally{
-    btn.disabled = false; btn.textContent = 'Enviar inscripción';
+    if(!redirigiendo){ btn.disabled = false; btn.textContent = 'Inscribirme y pagar'; }
   }
 });
 
-$('otra').addEventListener('click', () => {
+/* ---- Pantallas de resultado (al volver desde Flow) ---- */
+function mostrar(id){
+  ['form','ok','pend','rech'].forEach(x => $(x).style.display = x === id ? 'block' : 'none');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+(function(){
+  const q = new URLSearchParams(location.search);
+  const pago = q.get('pago'); if(!pago) return;
+  const nombre = q.get('n') || '';
+  if(pago === 'ok'){ $('okNombre').textContent = nombre; mostrar('ok'); }
+  else if(pago === 'pendiente'){ $('pendNombre').textContent = nombre; mostrar('pend'); }
+  else mostrar('rech');
+  history.replaceState(null, '', location.pathname);
+})();
+
+document.querySelectorAll('.otra').forEach(b => b.addEventListener('click', () => {
   $('form').reset();
   document.querySelectorAll('.check').forEach(l => l.classList.remove('on','err'));
+  document.querySelectorAll('.field.err').forEach(f => f.classList.remove('err'));
   $('todos').textContent = 'Marcar todas';
-  $('ok').style.display = 'none'; $('form').style.display = 'block';
-  window.scrollTo({top:0, behavior:'smooth'});
-});
+  mostrar('form');
+}));
 </script>
 </body>
 </html>
