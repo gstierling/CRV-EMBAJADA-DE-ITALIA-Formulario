@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cicletada Embajada de Italia 2026 · Inscripción</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde:#009246; --verde-osc:#006b33; --verde-claro:#e6f4ec;
+    --blanco:#ffffff; --crema:#f7f7f2;
+    --rojo:#ce2b37; --rojo-osc:#a01f29; --rojo-claro:#fbe9ea;
+    --texto:#1d2a22; --suave:#5d6b62; --borde:#d8ded9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{font-family:'Nunito',system-ui,sans-serif;background:var(--crema);color:var(--texto);
+       -webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom)}
+
+  .flag{display:flex;height:10px;position:sticky;top:0;z-index:10}
+  .flag span{flex:1}.flag span:nth-child(1){background:var(--verde)}
+  .flag span:nth-child(2){background:var(--blanco)}.flag span:nth-child(3){background:var(--rojo)}
+
+  .wrap{width:100%;max-width:640px;margin:0 auto;padding:18px 16px 40px}
+
+  header.hero{background:var(--blanco);border-radius:22px;overflow:hidden;
+              box-shadow:0 6px 24px rgba(0,0,0,.07);margin-bottom:18px}
+  .hero-band{display:flex;height:6px}.hero-band span{flex:1}
+  .hero-band span:nth-child(1){background:var(--verde)}.hero-band span:nth-child(2){background:#eee}
+  .hero-band span:nth-child(3){background:var(--rojo)}
+  .hero-body{padding:24px 20px 22px;text-align:center}
+  .tag{display:inline-block;font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+       color:var(--verde);background:var(--verde-claro);padding:6px 14px;border-radius:99px;margin-bottom:12px}
+  h1{font-size:clamp(1.7rem,7vw,2.3rem);font-weight:900;line-height:1.1}
+  h1 .v{color:var(--verde)} h1 .r{color:var(--rojo)}
+  .info{display:grid;gap:10px;margin-top:18px;text-align:left}
+  .info div{display:flex;align-items:center;gap:12px;background:var(--crema);border-radius:14px;
+            padding:12px 14px;font-weight:700;font-size:1.05rem}
+  .info .ic{width:38px;height:38px;flex:0 0 38px;border-radius:11px;display:grid;place-items:center;font-size:1.2rem}
+  .info div:nth-child(1) .ic{background:var(--verde-claro)}
+  .info div:nth-child(2) .ic{background:#eef0ee}
+  .info div:nth-child(3) .ic{background:var(--rojo-claro)}
+  .nota{margin-top:16px;font-size:.98rem;color:var(--suave);background:#fffbe8;border:1px solid #f1e3a6;
+        border-radius:14px;padding:12px 14px;text-align:left;line-height:1.45}
+  .nota b{color:var(--texto)}
+
+  .card{background:var(--blanco);border-radius:20px;padding:22px 18px;margin-bottom:16px;
+        box-shadow:0 4px 18px rgba(0,0,0,.05);border-top:5px solid var(--verde)}
+  .card:nth-of-type(2n){border-top-color:var(--rojo)}
+  .card h2{display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:900;margin-bottom:16px}
+  .num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:1rem;color:#fff;
+       background:var(--verde);flex:0 0 34px}
+  .card:nth-of-type(2n) .num{background:var(--rojo)}
+
+  .field{margin-bottom:14px}
+  label.lb{display:block;font-weight:800;font-size:1rem;margin-bottom:6px}
+  label.lb small{font-weight:600;color:var(--suave)}
+  input[type=text],input[type=email],input[type=tel]{
+    width:100%;font:inherit;font-size:1.1rem;font-weight:600;color:var(--texto);
+    padding:15px 16px;border:2px solid var(--borde);border-radius:14px;background:#fbfcfb;
+    transition:border-color .15s, box-shadow .15s;-webkit-appearance:none;appearance:none}
+  input:focus{outline:none;border-color:var(--verde);box-shadow:0 0 0 4px rgba(0,146,70,.15);background:#fff}
+  .field.err input{border-color:var(--rojo);background:var(--rojo-claro)}
+  .msg{display:none;color:var(--rojo);font-weight:700;font-size:.9rem;margin-top:6px}
+  .field.err .msg{display:block}
+  .row2{display:grid;gap:0 12px}
+  @media(min-width:520px){.row2{grid-template-columns:1fr 1fr}}
+
+  .tallas{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .talla{position:relative}
+  .talla input{position:absolute;opacity:0;pointer-events:none}
+  .talla span{display:grid;place-items:center;height:62px;border:2px solid var(--borde);border-radius:14px;
+              font-size:1.25rem;font-weight:900;cursor:pointer;background:#fbfcfb;transition:all .15s;user-select:none}
+  .talla input:checked + span{background:var(--verde);border-color:var(--verde);color:#fff;
+              box-shadow:0 4px 12px rgba(0,146,70,.3);transform:translateY(-2px)}
+  .field.err .talla span{border-color:var(--rojo)}
+
+  .check{display:flex;gap:14px;align-items:flex-start;padding:14px;border:2px solid var(--borde);
+         border-radius:14px;margin-bottom:10px;cursor:pointer;background:#fbfcfb;transition:all .15s}
+  .check input{position:absolute;opacity:0;pointer-events:none}
+  .box{flex:0 0 28px;height:28px;border-radius:8px;border:2px solid #b9c3bc;background:#fff;
+       display:grid;place-items:center;transition:all .15s;margin-top:1px}
+  .box svg{width:18px;height:18px;opacity:0;transform:scale(.5);transition:all .15s}
+  .check.on{border-color:var(--verde);background:var(--verde-claro)}
+  .check.on .box{background:var(--verde);border-color:var(--verde)}
+  .check.on .box svg{opacity:1;transform:scale(1)}
+  .check.err{border-color:var(--rojo);background:var(--rojo-claro)}
+  .check p{font-size:1rem;font-weight:600;line-height:1.4}
+  .todos{font-weight:800;color:var(--verde);background:none;border:none;font:inherit;font-size:.95rem;
+         cursor:pointer;margin:-4px 0 10px;padding:4px 0;text-decoration:underline}
+
+  .btn{width:100%;font:inherit;font-size:1.25rem;font-weight:900;letter-spacing:.02em;color:#fff;border:none;
+       border-radius:16px;padding:19px;cursor:pointer;
+       background:linear-gradient(90deg,var(--verde) 0%,var(--verde-osc) 50%,var(--rojo-osc) 50%,var(--rojo) 100%);
+       background-size:200% 100%;background-position:0 0;transition:background-position .4s, transform .1s;
+       box-shadow:0 6px 18px rgba(0,0,0,.15)}
+  .btn:hover{background-position:100% 0}.btn:active{transform:scale(.98)}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .alerta{display:none;margin-bottom:14px;padding:14px 16px;border-radius:14px;font-weight:700;
+          background:var(--rojo-claro);color:var(--rojo-osc);border:2px solid var(--rojo)}
+
+  .ok{display:none;text-align:center;background:#fff;border-radius:22px;padding:34px 22px;
+      box-shadow:0 6px 24px rgba(0,0,0,.07)}
+  .ok .circ{width:92px;height:92px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;
+            background:var(--verde);box-shadow:0 0 0 10px var(--verde-claro)}
+  .ok h2{font-size:1.8rem;font-weight:900;margin-bottom:8px}
+  .ok p{font-size:1.08rem;color:var(--suave);line-height:1.5;margin-bottom:6px}
+  .ok .who{font-size:1.25rem;font-weight:900;color:var(--texto);margin:12px 0}
+  .ok .btn{margin-top:20px}
+  footer{text-align:center;color:var(--suave);font-size:.85rem;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="flag"><span></span><span></span><span></span></div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-band"><span></span><span></span><span></span></div>
+    <div class="hero-body">
+      <div class="tag">Formulario de inscripción</div>
+      <h1><span class="v">Cicletada</span> Embajada <span class="r">de Italia</span> 2026</h1>
+      <div class="info">
+        <div><span class="ic">📅</span>Domingo 18 de octubre</div>
+        <div><span class="ic">⏰</span>Convocatoria 9.30 hrs.</div>
+        <div><span class="ic">📍</span>Andrés Bello con General Calderón</div>
+      </div>
+      <div class="nota">Se debe llenar <b>un formulario por cada persona</b> (niño o adulto) que vaya a participar en la cicletada.</div>
+    </div>
+  </header>
+
+  <form id="form" novalidate>
+    <section class="card">
+      <h2><span class="num">1</span>Datos personales</h2>
+      <div class="row2">
+        <div class="field" data-f="nombre">
+          <label class="lb" for="nombre">Nombre</label>
+          <input type="text" id="nombre" autocomplete="given-name">
+          <div class="msg">Ingresa el nombre.</div>
+        </div>
+        <div class="field" data-f="apellido">
+          <label class="lb" for="apellido">Apellido</label>
+          <input type="text" id="apellido" autocomplete="family-name">
+          <div class="msg">Ingresa el apellido.</div>
+        </div>
+      </div>
+      <div class="field" data-f="rut">
+        <label class="lb" for="rut">RUT <small>(ej: 12.345.678-9)</small></label>
+        <input type="text" id="rut" inputmode="text" maxlength="12" autocomplete="off">
+        <div class="msg" id="rutMsg">RUT inválido.</div>
+      </div>
+      <div class="field" data-f="correo">
+        <label class="lb" for="correo">Correo electrónico</label>
+        <input type="email" id="correo" inputmode="email" autocomplete="email">
+        <div class="msg">Ingresa un correo válido.</div>
+      </div>
+      <div class="field" data-f="telefono">
+        <label class="lb" for="telefono">Celular <small>(9 dígitos)</small></label>
+        <input type="tel" id="telefono" inputmode="tel" placeholder="9 1234 5678" autocomplete="tel">
+        <div class="msg">Ingresa un celular válido (9 dígitos, empieza con 9).</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="num">2</span>Talla polera</h2>
+      <div class="field" data-f="talla">
+        <div class="tallas">
+          <label class="talla"><input type="radio" name="talla" value="XS"><span>XS</span></label>
+          <label class="talla"><input type="radio" name="talla" value="S"><span>S</span></label>
+          <label class="talla"><input type="radio" name="talla" value="M"><span>M</span></label>
+          <label class="talla"><input type="radio" name="talla" value="L"><span>L</span></label>
+          <label class="talla"><input type="radio" name="talla" value="XL"><span>XL</span></label>
+        </div>
+        <div class="msg">Selecciona una talla.</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="num">3</span>Información ante emergencias</h2>
+      <div class="field" data-f="emNombre">
+        <label class="lb" for="emNombre">Nombre de contacto de emergencia</label>
+        <input type="text" id="emNombre" autocomplete="off">
+        <div class="msg">Ingresa el nombre del contacto.</div>
+      </div>
+      <div class="field" data-f="emTelefono">
+        <label class="lb" for="emTelefono">Celular de contacto de emergencia</label>
+        <input type="tel" id="emTelefono" inputmode="tel" placeholder="9 1234 5678" autocomplete="off">
+        <div class="msg">Ingresa un celular válido (9 dígitos, empieza con 9).</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="num">4</span>Declaraciones y autorizaciones</h2>
+      <button type="button" class="todos" id="todos">Marcar todas</button>
+      <label class="check" data-k="d3"><input type="checkbox" id="d3"><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <p>Declaro que participo voluntariamente en la cicletada y que me encuentro en condiciones adecuadas para realizar actividad física.</p></label>
+      <label class="check" data-k="d4"><input type="checkbox" id="d4"><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <p>Acepto el uso de fotografías y/o videos registrados durante la actividad para fines de comunicación y difusión de la Cicletada Embajada de Italia y de las instituciones organizadoras.</p></label>
+    </section>
+
+    <div class="alerta" id="alerta"></div>
+    <button type="submit" class="btn" id="enviar">Enviar inscripción</button>
+  </form>
+
+  <div class="ok" id="ok">
+    <div class="circ"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2>¡Inscripción recibida!</h2>
+    <div class="who" id="okNombre"></div>
+    <p>Te esperamos el <b>domingo 18 de octubre</b> a las <b>9.30 hrs.</b> en Andrés Bello con General Calderón.</p>
+    <p>Grazie mille 🇮🇹🇨🇱</p>
+    <button class="btn" id="otra">Inscribir a otra persona</button>
+  </div>
+
+  <footer>Cicletada Embajada de Italia 2026 · CicloRecreoVía</footer>
+</div>
+
+<script>
+const SCRIPT_URL = 'PEGAR_AQUI_URL_APPS_SCRIPT';
+
+const $ = id => document.getElementById(id);
+const setErr = (f, on) => document.querySelector(`.field[data-f="${f}"]`).classList.toggle('err', on);
+
+/* ---- RUT ---- */
+function limpiarRut(r){ return r.replace(/[^0-9kK]/g,'').toUpperCase(); }
+function formatearRut(r){
+  r = limpiarRut(r); if(r.length < 2) return r;
+  const cuerpo = r.slice(0,-1), dv = r.slice(-1);
+  return cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g,'.') + '-' + dv;
+}
+function rutValido(r){
+  r = limpiarRut(r); if(r.length < 8) return false;
+  const cuerpo = r.slice(0,-1), dv = r.slice(-1);
+  if(!/^\d+$/.test(cuerpo)) return false;
+  let s = 0, m = 2;
+  for(let i = cuerpo.length-1; i >= 0; i--){ s += +cuerpo[i]*m; m = m === 7 ? 2 : m+1; }
+  const res = 11 - (s % 11);
+  const esp = res === 11 ? '0' : res === 10 ? 'K' : String(res);
+  return esp === dv;
+}
+$('rut').addEventListener('input', e => { e.target.value = formatearRut(e.target.value); setErr('rut', false); });
+
+/* ---- Teléfono ---- */
+function normTel(t){
+  let d = t.replace(/\D/g,'');
+  if(d.startsWith('56')) d = d.slice(2);
+  return (d.length === 9 && d[0] === '9') ? '+56' + d : null;
+}
+
+/* ---- limpiar errores al escribir ---- */
+['nombre','apellido','correo','telefono','emNombre','emTelefono'].forEach(id =>
+  $(id).addEventListener('input', () => setErr(id, false)));
+document.querySelectorAll('input[name=talla]').forEach(r => r.addEventListener('change', () => setErr('talla', false)));
+
+/* ---- Checks ---- */
+const checks = ['d3','d4'];
+checks.forEach(id => $(id).addEventListener('change', e => {
+  const l = e.target.closest('.check'); l.classList.toggle('on', e.target.checked); l.classList.remove('err');
+}));
+$('todos').addEventListener('click', () => {
+  const todas = checks.every(id => $(id).checked);
+  checks.forEach(id => { $(id).checked = !todas; $(id).dispatchEvent(new Event('change')); });
+  $('todos').textContent = todas ? 'Marcar todas' : 'Desmarcar todas';
+});
+
+/* ---- Envío ---- */
+$('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  $('alerta').style.display = 'none';
+  const v = id => $(id).value.trim();
+  const talla = document.querySelector('input[name=talla]:checked');
+  const tel = normTel(v('telefono')), emTel = normTel(v('emTelefono'));
+  let primero = null;
+  const marca = (f, bad) => { setErr(f, bad); if(bad && !primero) primero = document.querySelector(`.field[data-f="${f}"]`); };
+
+  marca('nombre', !v('nombre'));
+  marca('apellido', !v('apellido'));
+  $('rutMsg').textContent = 'RUT inválido.';
+  marca('rut', !rutValido(v('rut')));
+  marca('correo', !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v('correo')));
+  marca('telefono', !tel);
+  marca('talla', !talla);
+  marca('emNombre', !v('emNombre'));
+  marca('emTelefono', !emTel);
+
+  let faltaCheck = false;
+  checks.forEach(id => {
+    if(!$(id).checked){ const l = $(id).closest('.check'); l.classList.add('err'); faltaCheck = true; if(!primero) primero = l; }
+  });
+
+  if(primero){
+    if(faltaCheck && !document.querySelector('.field.err')){
+      $('alerta').textContent = 'Debes aceptar todas las declaraciones para inscribirte.';
+      $('alerta').style.display = 'block';
+    }
+    primero.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
+  const datos = {
+    nombre: v('nombre'), apellido: v('apellido'), rut: formatearRut(v('rut')),
+    correo: v('correo').toLowerCase(), telefono: tel, talla: talla.value,
+    emNombre: v('emNombre'), emTelefono: emTel,
+    d3: 'Sí', d4: 'Sí'
+  };
+
+  const btn = $('enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+  try{
+    const r = await fetch(SCRIPT_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(datos) });
+    const j = await r.json();
+    if(j.status === 'ok'){
+      $('okNombre').textContent = datos.nombre + ' ' + datos.apellido;
+      $('form').style.display = 'none'; $('ok').style.display = 'block';
+      window.scrollTo({top:0, behavior:'smooth'});
+    } else if(j.status === 'duplicado'){
+      $('rutMsg').textContent = 'Este RUT ya está inscrito.';
+      setErr('rut', true); $('rut').closest('.field').scrollIntoView({behavior:'smooth', block:'center'});
+    } else { throw new Error(j.message || 'Error'); }
+  }catch(err){
+    $('alerta').textContent = 'No se pudo enviar la inscripción. Revisa tu conexión e inténtalo de nuevo.';
+    $('alerta').style.display = 'block';
+  }finally{
+    btn.disabled = false; btn.textContent = 'Enviar inscripción';
+  }
+});
+
+$('otra').addEventListener('click', () => {
+  $('form').reset();
+  document.querySelectorAll('.check').forEach(l => l.classList.remove('on','err'));
+  $('todos').textContent = 'Marcar todas';
+  $('ok').style.display = 'none'; $('form').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+</script>
+</body>
+</html>
