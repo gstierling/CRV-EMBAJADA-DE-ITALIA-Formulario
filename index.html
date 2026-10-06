@@ -198,7 +198,7 @@
     </section>
 
     <div class="alerta" id="alerta"></div>
-    <button type="submit" class="btn" id="enviar">Inscribirme y pagar $12.000</button>
+    <button type="submit" class="btn" id="enviar">Inscribirme y pagar $1.200</button>
     <p style="text-align:center;color:var(--suave);font-size:.92rem;margin-top:12px">Serás redirigido a Flow para completar el pago de forma segura.</p>
   </form>
 
@@ -334,7 +334,7 @@ $('form').addEventListener('submit', async e => {
     $('alerta').textContent = 'No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.';
     $('alerta').style.display = 'block';
   }finally{
-    if(!redirigiendo){ btn.disabled = false; btn.textContent = 'Inscribirme y pagar $12.000'; }
+    if(!redirigiendo){ btn.disabled = false; btn.textContent = 'Inscribirme y pagar $1.200'; }
   }
 });
 
