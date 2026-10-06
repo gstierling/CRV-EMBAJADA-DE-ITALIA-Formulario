@@ -109,6 +109,7 @@
 
   .ok{display:none;text-align:center;background:#fff;border-radius:22px;padding:34px 22px;
       box-shadow:0 6px 24px rgba(0,0,0,.07)}
+  .ok .tag{margin-bottom:22px}
   .ok .circ{width:92px;height:92px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;
             background:var(--verde);box-shadow:0 0 0 10px var(--verde-claro)}
   .ok h2{font-size:1.8rem;font-weight:900;margin-bottom:8px}
@@ -122,7 +123,7 @@
 <div class="flag"><span></span><span></span><span></span></div>
 
 <div class="wrap">
-  <header class="hero">
+  <header class="hero" id="hero">
     <div class="hero-band"><span></span><span></span><span></span></div>
     <div class="hero-body">
       <div class="tag">Formulario de inscripción</div>
@@ -218,31 +219,35 @@
   </form>
 
   <div class="ok" id="ok">
+    <div class="tag">Cicletada Embajada de Italia 2026</div>
     <div class="circ"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
     <h2>¡Inscripción confirmada!</h2>
     <div class="who" id="okNombre"></div>
     <p>Tu pago fue recibido. Te esperamos el <b>domingo 18 de octubre</b>, convocatoria <b>9.30 hrs.</b> en Pocuro con Av. Tobalaba.</p>
-    <p>Grazie mille 🇮🇹🇨🇱</p>
+    <p>Grazie mille! 🚲</p>
     <button class="btn otra">Inscribir a otra persona</button>
   </div>
 
   <div class="ok" id="gratis">
+    <div class="tag">Cicletada Embajada de Italia 2026</div>
     <div class="circ"><span style="font-size:2.6rem;line-height:1">🎁</span></div>
     <h2>¡Inscripción confirmada!</h2>
     <div class="who" id="gratisNombre"></div>
     <p>Estás dentro de los primeros inscritos, por lo que no debes pagar nada por la polera, el morral y el regalo.</p>
     <p>Te esperamos el <b>domingo 18 de octubre</b>, convocatoria <b>9.30 hrs.</b> en Pocuro con Av. Tobalaba.</p>
-    <p>Grazie mille 🇮🇹🇨🇱</p>
+    <p>Grazie mille! 🚲</p>
     <button class="btn otra">Inscribir a otra persona</button>
   </div>
 
   <div class="ok" id="agotado">
+    <div class="tag">Cicletada Embajada de Italia 2026</div>
     <div class="circ" style="background:var(--rojo);box-shadow:0 0 0 10px var(--rojo-claro)"><span style="font-size:2.6rem;line-height:1">🚲</span></div>
     <h2>Lo sentimos, los cupos a la Cicletada se han agotado</h2>
     <p>Gracias por tu interés en la Cicletada Embajada de Italia 2026.</p>
   </div>
 
   <div class="ok" id="pend">
+    <div class="tag">Cicletada Embajada de Italia 2026</div>
     <div class="circ" style="background:#e0a100;box-shadow:0 0 0 10px #fff4d1"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div>
     <h2>Pago en proceso</h2>
     <div class="who" id="pendNombre"></div>
@@ -251,6 +256,7 @@
   </div>
 
   <div class="ok" id="rech">
+    <div class="tag">Cicletada Embajada de Italia 2026</div>
     <div class="circ" style="background:var(--rojo);box-shadow:0 0 0 10px var(--rojo-claro)"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg></div>
     <h2>El pago no se completó</h2>
     <p>La inscripción no quedó confirmada. Puedes intentarlo nuevamente.</p>
@@ -377,6 +383,7 @@ $('form').addEventListener('submit', async e => {
 /* ---- Pantallas de resultado (al volver desde Flow) ---- */
 function mostrar(id){
   ['cargando','form','ok','gratis','agotado','pend','rech'].forEach(x => $(x).style.display = x === id ? 'block' : 'none');
+  $('hero').style.display = (id === 'form' || id === 'cargando') ? '' : 'none';
   window.scrollTo({top:0, behavior:'smooth'});
 }
 (async function(){
