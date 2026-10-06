@@ -40,6 +40,13 @@
   .info div:nth-child(1) .ic{background:var(--verde-claro)}
   .info div:nth-child(2) .ic{background:#eef0ee}
   .info div:nth-child(3) .ic{background:var(--rojo-claro)}
+  .avisos{display:grid;gap:10px;margin-top:18px;text-align:left}
+  .aviso{display:flex;gap:12px;align-items:flex-start;background:#fffbe8;border:2px solid #f1d878;
+         border-left:6px solid var(--rojo);border-radius:14px;padding:14px}
+  .aviso .aic{font-size:1.4rem;line-height:1;flex:0 0 auto;margin-top:2px}
+  .aviso p{font-size:1.02rem;font-weight:600;line-height:1.45;color:var(--texto)}
+  .aviso b{color:var(--rojo-osc)}
+  .cargando{text-align:center;padding:40px 20px;color:var(--suave);font-weight:700;font-size:1.05rem}
   .nota{margin-top:16px;font-size:.98rem;color:var(--suave);background:#fffbe8;border:1px solid #f1e3a6;
         border-radius:14px;padding:12px 14px;text-align:left;line-height:1.45}
   .nota b{color:var(--texto)}
@@ -119,16 +126,21 @@
     <div class="hero-body">
       <div class="tag">Formulario de inscripción</div>
       <h1><span class="v">Cicletada</span> Embajada <span class="r">de Italia</span> 2026</h1>
+      <div class="avisos">
+        <div class="aviso"><span class="aic">🎁</span><p>La inscripción a la Cicletada es individual y tiene un costo de <b>$12.000</b>, lo que incluye una polera, un morral y un regalo.</p></div>
+        <div class="aviso"><span class="aic">👨‍👩‍👧</span><p>Cada persona <b>-adulto o niño(a)-</b> debe inscribirse separadamente y llenar su propio formulario.</p></div>
+      </div>
       <div class="info">
         <div><span class="ic">📅</span>Domingo 18 de octubre</div>
         <div><span class="ic">⏰</span>Convocatoria 9.30 hrs.</div>
-        <div><span class="ic">📍</span>Andrés Bello con General Calderón</div>
+        <div><span class="ic">📍</span>Pocuro con Av. Tobalaba</div>
       </div>
-      <div class="nota">Se debe llenar <b>un formulario por cada persona</b> (niño o adulto) que vaya a participar en la cicletada.</div>
     </div>
   </header>
 
-  <form id="form" novalidate>
+  <div class="cargando" id="cargando">Cargando formulario…</div>
+
+  <form id="form" novalidate style="display:none">
     <section class="card">
       <h2><span class="num">1</span>Datos personales</h2>
       <div class="row2">
@@ -198,7 +210,7 @@
     </section>
 
     <div class="alerta" id="alerta"></div>
-    <button type="submit" class="btn" id="enviar">Inscribirme y pagar $1.200</button>
+    <button type="submit" class="btn" id="enviar">Inscribirme y pagar $500</button>
     <p style="text-align:center;color:var(--suave);font-size:.92rem;margin-top:12px">Serás redirigido a Flow para completar el pago de forma segura.</p>
   </form>
 
@@ -206,9 +218,25 @@
     <div class="circ"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
     <h2>¡Inscripción confirmada!</h2>
     <div class="who" id="okNombre"></div>
-    <p>Tu pago fue recibido. Te esperamos el <b>domingo 18 de octubre</b>, convocatoria <b>9.30 hrs.</b> en Andrés Bello con General Calderón.</p>
+    <p>Tu pago fue recibido. Te esperamos el <b>domingo 18 de octubre</b>, convocatoria <b>9.30 hrs.</b> en Pocuro con Av. Tobalaba.</p>
     <p>Grazie mille 🇮🇹🇨🇱</p>
     <button class="btn otra">Inscribir a otra persona</button>
+  </div>
+
+  <div class="ok" id="gratis">
+    <div class="circ"><span style="font-size:2.6rem;line-height:1">🎁</span></div>
+    <h2>¡Inscripción confirmada!</h2>
+    <div class="who" id="gratisNombre"></div>
+    <p>Estás dentro de los primeros inscritos, por lo que no debes pagar nada por la polera, el morral y el regalo.</p>
+    <p>Te esperamos el <b>domingo 18 de octubre</b>, convocatoria <b>9.30 hrs.</b> en Pocuro con Av. Tobalaba.</p>
+    <p>Grazie mille 🇮🇹🇨🇱</p>
+    <button class="btn otra">Inscribir a otra persona</button>
+  </div>
+
+  <div class="ok" id="agotado">
+    <div class="circ" style="background:var(--rojo);box-shadow:0 0 0 10px var(--rojo-claro)"><span style="font-size:2.6rem;line-height:1">🚲</span></div>
+    <h2>Lo sentimos, los cupos a la Cicletada se han agotado</h2>
+    <p>Gracias por tu interés en la Cicletada Embajada de Italia 2026.</p>
   </div>
 
   <div class="ok" id="pend">
@@ -326,6 +354,11 @@ $('form').addEventListener('submit', async e => {
     if(j.status === 'ok' && j.url){
       redirigiendo = true;
       window.location.href = j.url;
+    } else if(j.status === 'gratis'){
+      $('gratisNombre').textContent = datos.nombre + ' ' + datos.apellido;
+      mostrar('gratis');
+    } else if(j.status === 'agotado'){
+      mostrar('agotado');
     } else if(j.status === 'duplicado'){
       $('rutMsg').textContent = 'Este RUT ya tiene una inscripción pagada.';
       setErr('rut', true); $('rut').closest('.field').scrollIntoView({behavior:'smooth', block:'center'});
@@ -334,23 +367,35 @@ $('form').addEventListener('submit', async e => {
     $('alerta').textContent = 'No se pudo iniciar el pago. Revisa tu conexión e inténtalo de nuevo.';
     $('alerta').style.display = 'block';
   }finally{
-    if(!redirigiendo){ btn.disabled = false; btn.textContent = 'Inscribirme y pagar $1.200'; }
+    if(!redirigiendo){ btn.disabled = false; btn.textContent = 'Inscribirme y pagar $500'; }
   }
 });
 
 /* ---- Pantallas de resultado (al volver desde Flow) ---- */
 function mostrar(id){
-  ['form','ok','pend','rech'].forEach(x => $(x).style.display = x === id ? 'block' : 'none');
+  ['cargando','form','ok','gratis','agotado','pend','rech'].forEach(x => $(x).style.display = x === id ? 'block' : 'none');
   window.scrollTo({top:0, behavior:'smooth'});
 }
-(function(){
+(async function(){
   const q = new URLSearchParams(location.search);
-  const pago = q.get('pago'); if(!pago) return;
-  const nombre = q.get('n') || '';
-  if(pago === 'ok'){ $('okNombre').textContent = nombre; mostrar('ok'); }
-  else if(pago === 'pendiente'){ $('pendNombre').textContent = nombre; mostrar('pend'); }
-  else mostrar('rech');
-  history.replaceState(null, '', location.pathname);
+  const pago = q.get('pago');
+  if(pago){
+    const nombre = q.get('n') || '';
+    if(pago === 'ok'){ $('okNombre').textContent = nombre; mostrar('ok'); }
+    else if(pago === 'pendiente'){ $('pendNombre').textContent = nombre; mostrar('pend'); }
+    else mostrar('rech');
+    history.replaceState(null, '', location.pathname);
+    return;
+  }
+  // ¿Quedan cupos?
+  try{
+    const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 10000);
+    const r = await fetch(SCRIPT_URL + '?accion=estado', { signal: ctrl.signal });
+    clearTimeout(t);
+    const j = await r.json();
+    if(j.abierto === false){ mostrar('agotado'); return; }
+  }catch(e){ /* si falla la consulta, se muestra el formulario y el servidor valida al enviar */ }
+  mostrar('form');
 })();
 
 document.querySelectorAll('.otra').forEach(b => b.addEventListener('click', () => {
