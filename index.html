@@ -73,7 +73,8 @@
   .row2{display:grid;gap:0 12px}
   @media(min-width:520px){.row2{grid-template-columns:1fr 1fr}}
 
-  .tallas{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .tallas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  @media(min-width:560px){.tallas{grid-template-columns:repeat(7,1fr)}}
   .talla{position:relative}
   .talla input{position:absolute;opacity:0;pointer-events:none}
   .talla span{display:grid;place-items:center;height:62px;border:2px solid var(--borde);border-radius:14px;
@@ -176,11 +177,13 @@
       <h2><span class="num">2</span>Talla polera</h2>
       <div class="field" data-f="talla">
         <div class="tallas">
-          <label class="talla"><input type="radio" name="talla" value="XS"><span>XS</span></label>
+          <label class="talla"><input type="radio" name="talla" value="12"><span>12</span></label>
+          <label class="talla"><input type="radio" name="talla" value="16"><span>16</span></label>
           <label class="talla"><input type="radio" name="talla" value="S"><span>S</span></label>
           <label class="talla"><input type="radio" name="talla" value="M"><span>M</span></label>
           <label class="talla"><input type="radio" name="talla" value="L"><span>L</span></label>
           <label class="talla"><input type="radio" name="talla" value="XL"><span>XL</span></label>
+          <label class="talla"><input type="radio" name="talla" value="XXL"><span>XXL</span></label>
         </div>
         <div class="msg">Selecciona una talla.</div>
       </div>
