@@ -112,6 +112,54 @@
   .entrega{margin:16px 0 10px;padding:14px 16px;border-radius:14px;background:#fffbe8;border:2px solid #f1d878;
            border-left:6px solid var(--verde);text-align:left;font-size:1.02rem;font-weight:700;line-height:1.45;color:var(--texto)}
   .ok .tag{margin-bottom:22px}
+  /* ---- Candado ITALIA + dashboard ---- */
+  .admin{margin-top:34px}
+  .lock{text-align:center;padding:8px 0 4px}
+  .lock-letras{display:flex;justify-content:center;gap:8px;flex-wrap:nowrap}
+  .letra{width:48px;height:56px;border-radius:12px;border:2px solid var(--borde);background:var(--blanco);
+         font:inherit;font-size:1.45rem;font-weight:900;color:var(--texto);cursor:pointer;
+         transition:background .15s,border-color .15s,color .15s,transform .1s;-webkit-tap-highlight-color:transparent}
+  .letra:active{transform:scale(.93)}
+  .letra.on{background:var(--verde);border-color:var(--verde);color:#fff}
+  .lock.mal .lock-letras{animation:sacudir .4s}
+  @keyframes sacudir{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+  @media(max-width:360px){.letra{width:42px;height:50px;font-size:1.25rem}}
+
+  .dash{display:none;background:var(--blanco);border-radius:22px;padding:22px 18px;
+        box-shadow:0 6px 24px rgba(0,0,0,.07);border-top:6px solid var(--verde)}
+  .dash h2{font-size:1.35rem;font-weight:900;text-align:center;margin-bottom:4px}
+  .dash .act{text-align:center;color:var(--suave);font-size:.88rem;font-weight:600;margin-bottom:18px}
+  .kpi{background:linear-gradient(135deg,var(--verde) 0%,var(--verde-osc) 100%);color:#fff;border-radius:18px;
+       padding:22px 16px;text-align:center;margin-bottom:12px}
+  .kpi .kpinum{font-size:clamp(3.4rem,18vw,4.6rem);font-weight:900;line-height:1;letter-spacing:-.02em}
+  .kpi .lbl{font-size:1.05rem;font-weight:800;margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+  .kpi .sub{font-size:.95rem;font-weight:600;opacity:.9;margin-top:4px}
+  .mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+  .mini div{background:var(--crema);border-radius:14px;padding:12px;text-align:center}
+  .mini b{display:block;font-size:1.7rem;font-weight:900;line-height:1.1}
+  .mini span{font-size:.85rem;font-weight:700;color:var(--suave)}
+  .dash h3{font-size:1.1rem;font-weight:900;margin:6px 0 12px;display:flex;align-items:center;gap:8px}
+  .dash h3::before{content:'';width:6px;height:20px;border-radius:3px;background:var(--rojo)}
+  .barra{display:grid;grid-template-columns:48px 1fr 74px;align-items:center;gap:10px;margin-bottom:9px}
+  .barra .t{font-weight:900;font-size:1.1rem;text-align:center}
+  .barra .pista{height:26px;background:var(--crema);border-radius:8px;overflow:hidden}
+  .barra .fill{height:100%;background:var(--verde);border-radius:8px;transition:width .5s}
+  .barra .v{font-weight:800;font-size:1rem;text-align:right;white-space:nowrap}
+  .barra .v small{color:var(--suave);font-weight:600}
+  .buscar{width:100%;font:inherit;font-size:1.05rem;font-weight:600;padding:13px 14px;border:2px solid var(--borde);
+          border-radius:12px;background:#fbfcfb;margin:4px 0 10px;-webkit-appearance:none;appearance:none}
+  .buscar:focus{outline:none;border-color:var(--verde)}
+  .lista{list-style:none;border:2px solid var(--borde);border-radius:14px;overflow:hidden}
+  .lista li{display:flex;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid var(--borde);font-size:1.02rem}
+  .lista li:first-child{border-top:none}
+  .lista li:nth-child(even){background:#fafbf9}
+  .lista .i{color:var(--suave);font-weight:700;font-size:.9rem;min-width:28px}
+  .lista .n{flex:1;font-weight:700;min-width:0;overflow-wrap:anywhere}
+  .lista .g{font-size:.72rem;font-weight:800;color:var(--rojo-osc);background:var(--rojo-claro);padding:3px 7px;border-radius:99px;margin-left:6px;white-space:nowrap}
+  .lista .tl{font-weight:900;background:var(--verde-claro);color:var(--verde-osc);border-radius:8px;padding:5px 10px;min-width:48px;text-align:center}
+  .lista .vacio{justify-content:center;color:var(--suave);font-weight:600}
+  .btn-ocultar{background:var(--texto);margin-top:18px}
+
   .ok .circ{width:92px;height:92px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;
             background:var(--verde);box-shadow:0 0 0 10px var(--verde-claro)}
   .ok h2{font-size:1.8rem;font-weight:900;margin-bottom:8px}
@@ -267,6 +315,42 @@
     <button class="btn otra">Volver a intentar</button>
   </div>
 
+  <section class="admin" id="admin" style="display:none">
+    <div class="lock" id="lock">
+      <div class="lock-letras" id="letras">
+        <button type="button" class="letra" data-l="I">I</button>
+        <button type="button" class="letra" data-l="T">T</button>
+        <button type="button" class="letra" data-l="A">A</button>
+        <button type="button" class="letra" data-l="L">L</button>
+        <button type="button" class="letra" data-l="I">I</button>
+        <button type="button" class="letra" data-l="A">A</button>
+      </div>
+    </div>
+
+    <div class="dash" id="dash">
+      <h2>Panel de inscritos</h2>
+      <div class="act" id="dashAct"></div>
+      <div class="kpi">
+        <div class="kpinum" id="dTotal">0</div>
+        <div class="lbl">Inscritos</div>
+        <div class="sub" id="dCupos"></div>
+      </div>
+      <div class="mini">
+        <div><b id="dPagados">0</b><span>Con pago</span></div>
+        <div><b id="dGratis">0</b><span>Gratis</span></div>
+      </div>
+
+      <h3>Distribución de tallas</h3>
+      <div id="dTallas"></div>
+
+      <h3 style="margin-top:22px">Listado de inscritos</h3>
+      <input type="text" class="buscar" id="dBuscar" placeholder="Buscar por nombre…" autocomplete="off">
+      <ul class="lista" id="dLista"></ul>
+
+      <button type="button" class="btn btn-ocultar" id="ocultar">Ocultar</button>
+    </div>
+  </section>
+
   <footer>Cicletada Embajada de Italia 2026 · CicloRecreoVía</footer>
 </div>
 
@@ -388,6 +472,7 @@ $('form').addEventListener('submit', async e => {
 function mostrar(id){
   ['cargando','form','ok','gratis','agotado','pend','rech'].forEach(x => $(x).style.display = x === id ? 'block' : 'none');
   $('hero').style.display = (id === 'form' || id === 'cargando') ? '' : 'none';
+  $('admin').style.display = (id === 'form' || id === 'agotado') ? '' : 'none';
   window.scrollTo({top:0, behavior:'smooth'});
 }
 (async function(){
@@ -419,6 +504,89 @@ document.querySelectorAll('.otra').forEach(b => b.addEventListener('click', () =
   $('todos').textContent = 'Marcar todas';
   mostrar('form');
 }));
+/* ---- Candado ITALIA + dashboard ----
+   Se presionan 6 letras; la combinación se valida en el servidor,
+   que solo entrega los datos si la clave es correcta. */
+const fmt = n => Number(n || 0).toLocaleString('es-CL');
+const esc = t => String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let secuencia = [], clavePanel = '', datosPanel = null, timerPanel = null, validando = false;
+const botonesLetra = document.querySelectorAll('.letra');
+
+function reiniciarCandado(error){
+  secuencia = [];
+  botonesLetra.forEach(b => b.classList.remove('on'));
+  if(error){ $('lock').classList.remove('mal'); void $('lock').offsetWidth; $('lock').classList.add('mal'); }
+}
+botonesLetra.forEach(b => b.addEventListener('click', async () => {
+  if(validando || b.classList.contains('on')) return;
+  b.classList.add('on');
+  secuencia.push(b.dataset.l);
+  if(secuencia.length < botonesLetra.length) return;
+  validando = true;
+  const intento = secuencia.join('');
+  const ok = await cargarPanel(intento);
+  validando = false;
+  if(ok){ clavePanel = intento; abrirPanel(); }
+  else reiniciarCandado(true);
+}));
+
+async function cargarPanel(clave){
+  try{
+    const r = await fetch(SCRIPT_URL + '?accion=panel&clave=' + encodeURIComponent(clave));
+    const j = await r.json();
+    if(j.status !== 'ok') return false;
+    datosPanel = j; pintarPanel(); return true;
+  }catch(e){ return false; }
+}
+
+function abrirPanel(){
+  $('lock').style.display = 'none';
+  $('dash').style.display = 'block';
+  $('dash').scrollIntoView({behavior:'smooth', block:'start'});
+  clearInterval(timerPanel);
+  timerPanel = setInterval(() => cargarPanel(clavePanel), 30000);
+}
+$('ocultar').addEventListener('click', () => {
+  clearInterval(timerPanel); timerPanel = null;
+  clavePanel = ''; datosPanel = null;
+  $('dash').style.display = 'none';
+  $('lock').style.display = '';
+  $('dBuscar').value = '';
+  reiniciarCandado(false);
+  $('lock').scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+function pintarPanel(){
+  const d = datosPanel; if(!d) return;
+  const gratis = d.gratis || 0;
+  $('dTotal').textContent = fmt(d.total);
+  $('dCupos').textContent = 'de ' + fmt(d.cupos) + ' cupos · quedan ' + fmt(Math.max(d.cupos - d.total, 0));
+  $('dPagados').textContent = fmt(d.total - gratis);
+  $('dGratis').textContent = fmt(gratis);
+  $('dashAct').textContent = 'Actualizado ' + new Date().toLocaleTimeString('es-CL', {hour:'2-digit', minute:'2-digit'}) + ' · se actualiza cada 30 s';
+
+  const max = Math.max(1, ...d.orden.map(t => d.tallas[t] || 0));
+  $('dTallas').innerHTML = d.orden.map(t => {
+    const v = d.tallas[t] || 0;
+    const pct = d.total ? Math.round(v * 100 / d.total) : 0;
+    return `<div class="barra"><span class="t">${esc(t)}</span>
+      <div class="pista"><div class="fill" style="width:${v ? Math.max(v * 100 / max, 3) : 0}%"></div></div>
+      <span class="v">${fmt(v)} <small>(${pct}%)</small></span></div>`;
+  }).join('');
+  pintarLista();
+}
+
+function pintarLista(){
+  if(!datosPanel) return;
+  const q = $('dBuscar').value.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const filas = datosPanel.inscritos
+    .map((p, i) => ({...p, i: i + 1}))
+    .filter(p => !q || p.nombre.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').includes(q));
+  $('dLista').innerHTML = filas.length
+    ? filas.map(p => `<li><span class="i">${p.i}</span><span class="n">${esc(p.nombre)}${p.gratis ? '<span class="g">GRATIS</span>' : ''}</span><span class="tl">${esc(p.talla)}</span></li>`).join('')
+    : `<li class="vacio">${datosPanel.inscritos.length ? 'Sin resultados' : 'Aún no hay inscritos'}</li>`;
+}
+$('dBuscar').addEventListener('input', pintarLista);
 </script>
 </body>
 </html>
