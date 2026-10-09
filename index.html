@@ -291,6 +291,12 @@
     <button class="btn otra">Inscribir a otra persona</button>
   </div>
 
+  <div class="ok" id="pausado">
+    <div class="tag">Cicletada Embajada de Italia 2026</div>
+    <div class="circ" style="background:#e0a100;box-shadow:0 0 0 10px #fff4d1"><span style="font-size:2.6rem;line-height:1">⏸️</span></div>
+    <h2>Las inscripciones están temporalmente pausadas.</h2>
+  </div>
+
   <div class="ok" id="agotado">
     <div class="tag">Cicletada Embajada de Italia 2026</div>
     <div class="circ" style="background:var(--rojo);box-shadow:0 0 0 10px var(--rojo-claro)"><span style="font-size:2.6rem;line-height:1">🚲</span></div>
@@ -456,6 +462,8 @@ $('form').addEventListener('submit', async e => {
       mostrar('gratis');
     } else if(j.status === 'agotado'){
       mostrar('agotado');
+    } else if(j.status === 'pausado'){
+      mostrar('pausado');
     } else if(j.status === 'duplicado'){
       $('rutMsg').textContent = 'Este RUT ya tiene una inscripción pagada.';
       setErr('rut', true); $('rut').closest('.field').scrollIntoView({behavior:'smooth', block:'center'});
@@ -470,9 +478,9 @@ $('form').addEventListener('submit', async e => {
 
 /* ---- Pantallas de resultado (al volver desde Flow) ---- */
 function mostrar(id){
-  ['cargando','form','ok','gratis','agotado','pend','rech'].forEach(x => $(x).style.display = x === id ? 'block' : 'none');
+  ['cargando','form','ok','gratis','agotado','pausado','pend','rech'].forEach(x => $(x).style.display = x === id ? 'block' : 'none');
   $('hero').style.display = (id === 'form' || id === 'cargando') ? '' : 'none';
-  $('admin').style.display = (id === 'form' || id === 'agotado') ? '' : 'none';
+  $('admin').style.display = (id === 'form' || id === 'agotado' || id === 'pausado') ? '' : 'none';
   window.scrollTo({top:0, behavior:'smooth'});
 }
 (async function(){
@@ -492,6 +500,7 @@ function mostrar(id){
     const r = await fetch(SCRIPT_URL + '?accion=estado', { signal: ctrl.signal });
     clearTimeout(t);
     const j = await r.json();
+    if(j.pausado === true){ mostrar('pausado'); return; }
     if(j.abierto === false){ mostrar('agotado'); return; }
   }catch(e){ /* si falla la consulta, se muestra el formulario y el servidor valida al enviar */ }
   mostrar('form');
